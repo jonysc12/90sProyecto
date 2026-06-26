@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>México 90s — Crucigrama & Sopa de Letras</title>
+<meta name="description" content="Juegos interactivos sobre la cultura, política y música del México de los años 90. Crucigrama y Sopa de Letras.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;600;700;900&family=Righteous&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════ */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:#0a0a1a;color:#e0e0ff;overflow-x:hidden;}
+::-webkit-scrollbar{width:8px;}
+::-webkit-scrollbar-track{background:#0a0a1a;}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#ff0055,#b537f2);border-radius:4px;}
+
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+   ═══════════════════════════════════════════ */
+:root{
+  --pink:#ff0055;
+  --cyan:#00ccff;
+  --purple:#b537f2;
+  --green:#00ff88;
+  --yellow:#ffcc00;
+  --orange:#ff6b2b;
+  --bg:#0a0a1a;
+  --bg2:#111133;
+  --surface:rgba(255,255,255,0.05);
+  --surface2:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.1);
+  --text:#e0e0ff;
+  --text2:rgba(224,224,255,0.6);
+  --glow-pink:0 0 20px rgba(255,0,85,0.5);
+  --glow-cyan:0 0 20px rgba(0,204,255,0.5);
+  --glow-green:0 0 20px rgba(0,255,136,0.5);
+  --radius:16px;
+}
+
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY
+   ═══════════════════════════════════════════ */
+.font-title{font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:2px;}
+.font-display{font-family:'Righteous',cursive;letter-spacing:1px;}
+
+/* ═══════════════════════════════════════════
+   CRT / SCANLINES OVERLAY
+   ═══════════════════════════════════════════ */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);
+}
+
+/* ═══════════════════════════════════════════
+   GRID BACKGROUND
+   ═══════════════════════════════════════════ */
+.grid-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    linear-gradient(180deg,#0a0a1a 0%,#0d0d2b 40%,#1a0a2e 70%,#2a0a3e 100%),
+    repeating-linear-gradient(90deg,rgba(255,0,85,0.03) 0px,transparent 1px,transparent 60px),
+    repeating-linear-gradient(0deg,rgba(0,204,255,0.03) 0px,transparent 1px,transparent 60px);
+}
+
+/* ═══════════════════════════════════════════
+   NAV
+   ═══════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(10,10,26,0.92);backdrop-filter:blur(20px);
+  border-bottom:2px solid rgba(255,0,85,0.3);
+}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo{
+  font-family:'Press Start 2P',monospace;font-size:13px;font-weight:normal;
+  background:linear-gradient(90deg,var(--pink),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  text-shadow:none;letter-spacing:1px;
+}
+.nav-links{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.nav-link{
+  padding:7px 16px;border-radius:25px;font-size:12px;font-weight:700;
+  text-decoration:none;transition:all .25s;display:flex;align-items:center;gap:6px;
+  color:var(--text2);border:1.5px solid var(--border);cursor:pointer;background:transparent;
+}
+.nav-link.active{background:var(--pink);color:#fff;border-color:var(--pink);box-shadow:var(--glow-pink);}
+.nav-link:not(.active):hover{background:rgba(255,0,85,0.15);border-color:var(--pink);color:var(--pink);}
+.nav-mute{
+  width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);
+  background:transparent;color:var(--cyan);font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.nav-mute:hover{border-color:var(--cyan);box-shadow:var(--glow-cyan);}
+
+/* ═══════════════════════════════════════════
+   TICKER
+   ═══════════════════════════════════════════ */
+.ticker{
+  background:linear-gradient(90deg,rgba(255,0,85,0.1),rgba(0,204,255,0.1));
+  color:var(--cyan);font-size:11px;font-weight:700;padding:8px 0;
+  overflow:hidden;white-space:nowrap;border-bottom:1px solid rgba(0,204,255,0.15);
+  margin-top:60px;letter-spacing:1px;
+}
+.ticker-inner{display:inline-block;animation:ticker 35s linear infinite;}
+@keyframes ticker{from{transform:translateX(100vw);}to{transform:translateX(-100%);}}
+
+/* ═══════════════════════════════════════════
+   SPLASH SCREEN
+   ═══════════════════════════════════════════ */
+#splash{
+  position:fixed;inset:0;z-index:150;
+  background:linear-gradient(160deg,#0a0a1a 0%,#1a0a2e 30%,#2a0a3e 60%,#0d0d2b 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  overflow-y:auto;padding:80px 20px 40px;
+}
+#splash.hide{opacity:0;pointer-events:none;transition:opacity .8s ease;}
+
+@keyframes neonPulse{
+  0%,100%{text-shadow:0 0 10px var(--pink),0 0 30px var(--pink),0 0 60px var(--pink);}
+  50%{text-shadow:0 0 5px var(--pink),0 0 15px var(--pink),0 0 30px var(--pink);}
+}
+@keyframes floatUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+@keyframes glitch{
+  0%,100%{transform:translate(0);}
+  20%{transform:translate(-2px,2px);}
+  40%{transform:translate(2px,-2px);}
+  60%{transform:translate(-1px,-1px);}
+  80%{transform:translate(1px,1px);}
+}
+
+.splash-badge{
+  background:rgba(255,0,85,0.15);border:1px solid var(--pink);
+  color:var(--pink);font-size:8px;font-weight:normal;padding:6px 16px;
+  border-radius:25px;letter-spacing:1px;animation:neonPulse 2s ease infinite;
+  font-family:'Press Start 2P',monospace;
+}
+.splash-emoji{font-size:70px;margin:20px 0 10px;filter:drop-shadow(0 0 20px rgba(255,0,85,0.5));}
+.splash-title{
+  font-family:'Orbitron',sans-serif;font-size:clamp(36px,8vw,72px);font-weight:900;
+  background:linear-gradient(90deg,var(--pink),var(--purple),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1.1;text-align:center;
+}
+.splash-sub{
+  font-family:'Righteous',cursive;font-size:clamp(18px,4vw,32px);
+  color:var(--cyan);margin-top:6px;letter-spacing:2px;text-align:center;
+  text-shadow:0 0 20px rgba(0,204,255,0.4);
+}
+
+/* GLASS CARDS */
+.glass-card{
+  background:var(--surface2);backdrop-filter:blur(12px);
+  border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 22px;color:var(--text);transition:all .3s;
+}
+.glass-card:hover{border-color:rgba(255,0,85,0.3);transform:translateY(-3px);box-shadow:0 8px 30px rgba(255,0,85,0.1);}
+
+/* INFO TABS */
+.info-tabs{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
+.info-tab{
+  cursor:pointer;padding:8px 18px;border-radius:25px;font-size:12px;font-weight:700;
+  transition:all .25s;border:1.5px solid var(--border);color:var(--text2);background:transparent;
+}
+.info-tab.active{background:var(--pink);color:#fff;border-color:var(--pink);box-shadow:var(--glow-pink);}
+.info-tab:hover:not(.active){border-color:var(--pink);color:var(--pink);}
+.info-panel{display:none;animation:floatUp .4s ease;}
+.info-panel.active{display:block;}
+
+/* SPLASH BUTTONS */
+.btn-play{
+  background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;
+  padding:16px 40px;border-radius:50px;font-size:13px;font-family:'Press Start 2P',monospace;
+  border:none;cursor:pointer;box-shadow:0 8px 30px rgba(255,0,85,0.4);
+  transition:all .3s;letter-spacing:1px;
+}
+.btn-play:hover{transform:scale(1.05);box-shadow:0 12px 40px rgba(255,0,85,0.5);}
+.btn-secondary{
+  background:transparent;color:var(--cyan);
+  padding:16px 32px;border-radius:50px;font-size:11px;
+  border:2px solid var(--cyan);cursor:pointer;text-decoration:none;
+  display:flex;align-items:center;gap:8px;transition:all .3s;
+  font-family:'Press Start 2P',monospace;letter-spacing:1px;
+}
+.btn-secondary:hover{background:rgba(0,204,255,0.1);box-shadow:var(--glow-cyan);transform:scale(1.05);}
+
+/* ═══════════════════════════════════════════
+   GAME CONTAINER
+   ═══════════════════════════════════════════ */
+#game-crucigrama,#game-sopa{
+  padding-top:72px;min-height:100vh;position:relative;z-index:1;display:none;
+}
+
+/* GAME HEADER */
+.game-header{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:16px;flex-wrap:wrap;gap:12px;
+}
+.game-title{
+  font-family:'Press Start 2P',monospace;font-size:clamp(12px,2.5vw,18px);
+  background:linear-gradient(90deg,var(--pink),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  display:flex;align-items:center;gap:10px;
+}
+.game-title i{-webkit-text-fill-color:var(--pink);font-size:24px;}
+.game-subtitle{color:var(--text2);font-size:13px;margin-top:2px;}
+
+/* GAME BUTTONS */
+.game-btn{
+  padding:9px 18px;border-radius:12px;font-weight:700;font-size:12px;
+  border:1.5px solid var(--border);cursor:pointer;transition:all .25s;
+  display:flex;align-items:center;gap:6px;background:var(--surface);color:var(--text);
+}
+.game-btn:hover{border-color:var(--pink);color:var(--pink);box-shadow:0 0 15px rgba(255,0,85,0.2);}
+.game-btn.primary{background:var(--pink);color:#fff;border-color:var(--pink);}
+.game-btn.primary:hover{background:#ff1a6a;box-shadow:var(--glow-pink);}
+.game-btn.success{background:var(--green);color:#0a0a1a;border-color:var(--green);}
+.game-btn.success:hover{box-shadow:var(--glow-green);}
+
+/* PROGRESS BAR */
+.progress-track{background:var(--surface2);border-radius:99px;height:8px;overflow:hidden;margin-bottom:14px;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--pink),var(--purple),var(--cyan));border-radius:99px;transition:width .6s ease;width:0%;}
+
+/* HINT POP */
+.hint-pop{
+  background:rgba(0,255,136,0.1);border:1.5px solid var(--green);border-radius:12px;
+  padding:10px 16px;font-size:13px;color:var(--green);animation:floatUp .3s ease;
+  display:flex;align-items:center;gap:8px;
+}
+
+/* ═══════════════════════════════════════════
+   CRUCIGRAMA GRID
+   ═══════════════════════════════════════════ */
+.grid-container{
+  background:var(--surface2);padding:20px;border-radius:20px;
+  box-shadow:0 8px 40px rgba(0,0,0,.3);border:1px solid var(--border);
+  display:inline-block;
+}
+.grid-cell{
+  width:44px;height:44px;border:2px solid rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:800;background:rgba(255,255,255,0.06);
+  transition:all .2s;position:relative;border-radius:4px;
+}
+.grid-cell.black{background:transparent;border-color:transparent;}
+.grid-cell input{
+  width:100%;height:100%;text-align:center;font-size:18px;font-weight:800;
+  text-transform:uppercase;border:none;background:transparent;outline:none;
+  color:#fff;font-family:'Inter',sans-serif;caret-color:var(--cyan);
+}
+.grid-cell.correct{background:rgba(0,255,136,0.2)!important;border-color:var(--green)!important;}
+.grid-cell.correct input{color:var(--green);}
+.grid-cell.wrong{background:rgba(255,0,85,0.2)!important;border-color:var(--pink)!important;}
+.grid-cell.wrong input{color:var(--pink);}
+.grid-cell.highlight{background:rgba(0,204,255,0.1)!important;border-color:rgba(0,204,255,0.4)!important;}
+.active-cell{box-shadow:0 0 0 3px var(--cyan),0 0 15px rgba(0,204,255,0.3);border-color:var(--cyan)!important;}
+.cell-num{position:absolute;top:2px;left:3px;font-size:9px;font-weight:900;color:var(--pink);line-height:1;}
+
+/* CLUE PANEL */
+.clue-panel{
+  background:var(--surface2);border-radius:20px;
+  box-shadow:0 4px 20px rgba(0,0,0,.2);padding:20px;border:1px solid var(--border);
+}
+.clue-section-title{
+  font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;
+  color:var(--cyan);border-bottom:2px solid rgba(0,204,255,0.2);
+  padding-bottom:8px;margin-bottom:10px;display:flex;align-items:center;gap:8px;
+}
+.clue-item{
+  display:flex;gap:10px;padding:10px 14px;border-radius:12px;cursor:pointer;
+  transition:all .2s;border:1.5px solid transparent;font-size:13px;line-height:1.5;
+}
+.clue-item:hover{background:rgba(255,0,85,0.05);border-color:rgba(255,0,85,0.2);}
+.clue-item.active-clue{background:rgba(255,0,85,0.1);border-color:var(--pink);}
+.clue-item .clue-num{font-weight:900;color:var(--pink);min-width:20px;font-size:14px;}
+.clue-item .clue-text{color:var(--text);}
+
+/* SCORE CARD */
+.score-card{
+  background:var(--surface2);border-radius:20px;padding:18px;
+  border:1px solid var(--border);display:flex;align-items:center;gap:16px;
+}
+.score-number{font-family:'Press Start 2P',monospace;font-size:20px;color:var(--pink);line-height:1.2;}
+.score-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+.score-tag{
+  background:var(--surface2);color:var(--text2);font-size:11px;
+  padding:3px 10px;border-radius:20px;font-weight:600;border:1px solid var(--border);
+}
+
+/* FUN FACT */
+.fact-box{
+  background:linear-gradient(135deg,rgba(181,55,242,0.15),rgba(255,0,85,0.1));
+  border:1px solid rgba(181,55,242,0.3);border-radius:18px;padding:16px 20px;margin-top:16px;
+}
+.fact-label{font-size:11px;font-weight:700;color:var(--purple);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.fact-text{font-size:13px;color:var(--text);line-height:1.7;opacity:.9;}
+
+/* TRIVIA BOX */
+.trivia-box{
+  background:var(--surface2);border-radius:16px;padding:16px;
+  border-left:4px solid var(--cyan);border:1px solid var(--border);border-left:4px solid var(--cyan);
+}
+.trivia-label{font-size:11px;font-weight:700;color:var(--cyan);margin-bottom:6px;}
+.trivia-text{font-size:13px;color:var(--text);line-height:1.7;opacity:.85;}
+
+/* ═══════════════════════════════════════════
+   SOPA DE LETRAS
+   ═══════════════════════════════════════════ */
+.sopa-container{
+  background:var(--surface2);padding:20px;border-radius:20px;
+  box-shadow:0 8px 40px rgba(0,0,0,.3);border:1px solid var(--border);
+  display:inline-block;user-select:none;
+}
+.sopa-cell{
+  width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:800;color:rgba(255,255,255,0.7);
+  cursor:pointer;transition:all .15s;border-radius:4px;border:1px solid transparent;
+  font-family:'Inter',sans-serif;
+}
+.sopa-cell:hover{background:rgba(0,204,255,0.1);color:#fff;}
+.sopa-cell.selecting{background:rgba(255,204,0,0.2);border-color:var(--yellow);color:var(--yellow);}
+.sopa-cell.found{color:var(--green)!important;font-weight:900;}
+.sopa-cell.found-0{background:rgba(255,0,85,0.15);border-color:rgba(255,0,85,0.3);}
+.sopa-cell.found-1{background:rgba(0,204,255,0.15);border-color:rgba(0,204,255,0.3);}
+.sopa-cell.found-2{background:rgba(0,255,136,0.15);border-color:rgba(0,255,136,0.3);}
+.sopa-cell.found-3{background:rgba(181,55,242,0.15);border-color:rgba(181,55,242,0.3);}
+.sopa-cell.found-4{background:rgba(255,204,0,0.15);border-color:rgba(255,204,0,0.3);}
+.sopa-cell.found-5{background:rgba(255,107,43,0.15);border-color:rgba(255,107,43,0.3);}
+.sopa-cell.found-6{background:rgba(255,0,85,0.15);border-color:rgba(255,0,85,0.3);}
+.sopa-cell.found-7{background:rgba(0,204,255,0.15);border-color:rgba(0,204,255,0.3);}
+.sopa-cell.found-8{background:rgba(0,255,136,0.15);border-color:rgba(0,255,136,0.3);}
+.sopa-cell.found-9{background:rgba(181,55,242,0.15);border-color:rgba(181,55,242,0.3);}
+
+.word-list{display:flex;flex-direction:column;gap:6px;}
+.word-item{
+  display:flex;align-items:center;gap:10px;padding:10px 14px;
+  border-radius:12px;font-size:14px;font-weight:700;
+  background:var(--surface);border:1px solid var(--border);transition:all .3s;
+}
+.word-item.found-word{
+  background:rgba(0,255,136,0.1);border-color:var(--green);
+  text-decoration:line-through;color:var(--green);
+}
+.word-item .word-icon{font-size:18px;}
+.word-item .word-check{margin-left:auto;color:var(--green);opacity:0;transition:opacity .3s;}
+.word-item.found-word .word-check{opacity:1;}
+
+/* ═══════════════════════════════════════════
+   INFO SECTION
+   ═══════════════════════════════════════════ */
+#info-section{background:linear-gradient(180deg,#0d0d2b,#0a0a1a);padding:60px 24px;position:relative;z-index:1;}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;}
+.info-card{
+  background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:24px;
+  transition:all .3s;
+}
+.info-card:hover{border-color:rgba(255,0,85,0.3);transform:translateY(-4px);box-shadow:0 8px 30px rgba(255,0,85,0.1);}
+.info-card-emoji{font-size:36px;margin-bottom:12px;}
+.info-card h3{color:var(--pink);font-size:18px;font-weight:900;margin-bottom:10px;}
+.info-card p{color:var(--text);font-size:13px;line-height:1.8;opacity:.85;}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════ */
+footer{background:#050510;padding:40px 24px 24px;position:relative;z-index:1;border-top:1px solid var(--border);}
+.team-card{
+  background:var(--surface2);border:1px solid var(--border);border-radius:16px;
+  padding:20px;text-align:center;transition:all .3s;
+}
+.team-card:hover{transform:translateY(-4px);border-color:rgba(0,204,255,0.3);box-shadow:0 8px 20px rgba(0,204,255,0.1);}
+.team-card .team-emoji{font-size:40px;margin-bottom:10px;}
+.team-card .team-name{font-weight:900;color:var(--cyan);font-size:15px;}
+.team-card .team-sub{color:var(--text2);font-size:12px;margin-top:4px;}
+.team-card .team-badge{
+  margin-top:10px;background:rgba(0,204,255,0.1);border:1px solid rgba(0,204,255,0.2);
+  border-radius:8px;padding:4px 12px;display:inline-block;font-size:11px;color:var(--cyan);
+}
+
+/* CONFETTI */
+.confetti-piece{position:fixed;pointer-events:none;z-index:9998;}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+
+/* TIMER */
+.timer-display{
+  font-family:'Press Start 2P',monospace;font-size:12px;
+  color:var(--yellow);display:flex;align-items:center;gap:6px;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media(max-width:900px){
+  .game-layout{grid-template-columns:1fr!important;}
+  .grid-cell{width:36px;height:36px;}
+  .grid-cell input{font-size:15px;}
+  .sopa-cell{width:32px;height:32px;font-size:14px;}
+  .nav-links{gap:4px;}
+  .nav-link{padding:5px 10px;font-size:11px;}
+  .nav-link span.nav-text{display:none;}
+}
+@media(max-width:500px){
+  .grid-cell{width:30px;height:30px;}
+  .grid-cell input{font-size:13px;}
+  .sopa-cell{width:28px;height:28px;font-size:12px;}
+}
+</style>
+</head>
+<body>
+
+<!-- GRID BG -->
+<div class="grid-bg"></div>
+
+<!-- ═══════════════════════════════════════════
+     NAV
+     ═══════════════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-logo">🇲🇽 MÉXICO 90s</span>
+    <div class="nav-links">
+      <button class="nav-link active" id="nav-home" onclick="goHome()"><i class="fas fa-home"></i> <span class="nav-text">Inicio</span></button>
+      <button class="nav-link" id="nav-cruci" onclick="startGame('crucigrama')"><i class="fas fa-puzzle-piece"></i> <span class="nav-text">Crucigrama</span></button>
+      <button class="nav-link" id="nav-sopa" onclick="startGame('sopa')"><i class="fas fa-search"></i> <span class="nav-text">Sopa</span></button>
+      <a href="#info-section" class="nav-link" onclick="showInfoFromNav()"><i class="fas fa-book-open"></i> <span class="nav-text">Info</span></a>
+      <a href="#footer" class="nav-link"><i class="fas fa-users"></i> <span class="nav-text">Equipo</span></a>
+      <button class="nav-mute" id="mute-btn" onclick="toggleMute()" title="Sonido"><i class="fas fa-volume-up"></i></button>
+    </div>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker" style="margin-top:60px;">
+  <span class="ticker-inner">🔥 CRUCIGRAMA & SOPA DE LETRAS &nbsp;•&nbsp; MÉXICO EN LOS 90s &nbsp;•&nbsp; 📺 TELENOVELAS: MARIMAR, MARÍA LA DEL BARRIO &nbsp;•&nbsp; 🎵 MANÁ, SELENA, THALÍA &nbsp;•&nbsp; 💰 CRISIS DEL PESO 94 &nbsp;•&nbsp; 🏛️ SALINAS & ZEDILLO &nbsp;•&nbsp; 📰 CASO COLOSIO &nbsp;•&nbsp; 🌎 NAFTA / TLC &nbsp;•&nbsp; 🇲🇽 VIVA MÉXICO 90s &nbsp;•&nbsp;</span>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SPLASH SCREEN
+     ═══════════════════════════════════════════ -->
+<div id="splash">
+  <div style="text-align:center;animation:floatUp .6s ease both;">
+    <div class="splash-badge">▶ REC • MÉXICO 90s</div>
+    <div class="splash-emoji">🇲🇽</div>
+    <h1 class="splash-title">JUEGOS<br>INTERACTIVOS</h1>
+    <h2 class="splash-sub">MÉXICO EN LOS 90s</h2>
+  </div>
+
+  <p style="animation:floatUp .6s ease .2s both;color:var(--text);font-size:15px;opacity:.85;max-width:540px;text-align:center;padding:0 20px;margin:20px 0 24px;line-height:1.7;">
+    Pon a prueba tu conocimiento sobre la cultura, política, música y economía del México noventero. ¡La época del TLC, las telenovelas de Thalía, Selena y la crisis del peso!
+  </p>
+
+  <!-- INFO TABS -->
+  <div style="animation:floatUp .6s ease .35s both;margin-bottom:16px;" class="info-tabs">
+    <button class="info-tab active" onclick="switchTab('nafta')">🌎 NAFTA</button>
+    <button class="info-tab" onclick="switchTab('colosio')">📰 Colosio</button>
+    <button class="info-tab" onclick="switchTab('telenovelas')">📺 Telenovelas</button>
+    <button class="info-tab" onclick="switchTab('musica')">🎵 Música</button>
+    <button class="info-tab" onclick="switchTab('crisis')">💰 Crisis</button>
+    <button class="info-tab" onclick="switchTab('politica')">🏛️ Política</button>
+  </div>
+
+  <div style="animation:floatUp .6s ease .45s both;max-width:700px;width:100%;padding:0 16px;margin-bottom:28px;">
+    <div id="tab-nafta" class="info-panel active glass-card" style="text-align:left;">
+      <div style="font-size:20px;font-weight:900;margin-bottom:10px;color:var(--cyan);">🌎 NAFTA / TLC (1994)</div>
+      <p style="font-size:13px;line-height:1.8;opacity:.9;">El <strong>Tratado de Libre Comercio de América del Norte (NAFTA/TLC)</strong> entró en vigor el <strong>1 de enero de 1994</strong>, integrando las economías de México, Estados Unidos y Canadá. Fue impulsado por el presidente <strong>Carlos Salinas de Gortari</strong> como pieza clave de su proyecto modernizador. El tratado eliminó aranceles en miles de productos y abrió la puerta a la inversión extranjera masiva. Sin embargo, el mismo día que entró en vigor, el <strong>EZLN</strong> se levantó en armas en Chiapas, evidenciando la profunda desigualdad del país. El TLC transformó radicalmente la economía mexicana: la industria maquiladora creció exponencialmente, pero el campo sufrió con la competencia del maíz estadounidense subsidiado.</p>
+    </div>
+    <div id="tab-colosio" class="info-panel glass-card" style="text-align:left;">
+      <div style="font-size:20px;font-weight:900;margin-bottom:10px;color:var(--pink);">📰 Asesinato de Colosio (1994)</div>
+      <p style="font-size:13px;line-height:1.8;opacity:.9;"><strong>Luis Donaldo Colosio Murrieta</strong>, candidato presidencial del PRI, fue asesinado el <strong>23 de marzo de 1994</strong> durante un mitin en la colonia Lomas Taurinas de <strong>Tijuana, Baja California</strong>. Su muerte sacudió al país y al mundo político. Colosio era visto como un reformador que prometía democratizar al PRI desde dentro. En su famoso <strong>discurso del 6 de marzo de 1994</strong>, habló de "un México con hambre y sed de justicia". Su asesino, <strong>Mario Aburto Martínez</strong>, fue detenido en el acto. El caso sigue siendo uno de los más controversiales de la historia mexicana, con teorías que apuntan a una conspiración política. Tras su muerte, <strong>Ernesto Zedillo</strong> fue designado candidato sustituto y ganó la presidencia.</p>
+    </div>
+    <div id="tab-telenovelas" class="info-panel glass-card" style="text-align:left;">
+      <div style="font-size:20px;font-weight:900;margin-bottom:10px;color:var(--purple);">📺 Telenovelas de los 90s</div>
+      <p style="font-size:13px;line-height:1.8;opacity:.9;">Los años 90 fueron la era de oro de <strong>Thalía</strong> en las telenovelas. La trilogía de las Marías — <strong>"María Mercedes"</strong> (1992), <strong>"Marimar"</strong> (1994) y <strong>"María la del Barrio"</strong> (1995) — se convirtió en un fenómeno global. <strong>Televisa</strong> dominaba las pantallas con producciones que se exportaron a más de <strong>100 países</strong>. Otras telenovelas icónicas incluyen <strong>"Café con Aroma de Mujer"</strong>, <strong>"La Usurpadora"</strong> (1998) con Gabriela Spanic, y <strong>"Esmeralda"</strong> (1997) con Leticia Calderón. Los productores como <strong>Emilio Larrosa</strong> y guionistas como <strong>Inés Rodena</strong> crearon fórmulas narrativas que definieron el género para toda una generación.</p>
+    </div>
+    <div id="tab-musica" class="info-panel glass-card" style="text-align:left;">
+      <div style="font-size:20px;font-weight:900;margin-bottom:10px;color:var(--green);">🎵 Música Mexicana 90s</div>
+      <p style="font-size:13px;line-height:1.8;opacity:.9;">La escena musical de los 90s fue una explosión de talento. <strong>Selena Quintanilla</strong>, la "Reina del Tex-Mex", dominó las listas hasta su trágico asesinato en <strong>marzo de 1995</strong>. Su álbum póstumo <strong>"Dreaming of You"</strong> debutó #1 en EE.UU. <strong>Maná</strong> conquistó el mundo con <strong>"¿Dónde Jugarán los Niños?"</strong> (1992), el álbum de rock en español más vendido de la historia. <strong>Luis Miguel</strong> reinventó el bolero con la serie <strong>"Romances"</strong>. <strong>Café Tacvba</strong> revolucionó el rock alternativo con <strong>"Re"</strong> (1994). <strong>Molotov</strong> sacudió al país con <strong>"¿Dónde Jugarán las Niñas?"</strong> (1997). <strong>Thalía</strong> se consolidó también como estrella pop internacional.</p>
+    </div>
+    <div id="tab-crisis" class="info-panel glass-card" style="text-align:left;">
+      <div style="font-size:20px;font-weight:900;margin-bottom:10px;color:var(--yellow);">💰 Crisis del Peso (1994)</div>
+      <p style="font-size:13px;line-height:1.8;opacity:.9;">El <strong>"Error de Diciembre"</strong> fue una de las peores crisis económicas de México. En <strong>diciembre de 1994</strong>, recién iniciado el gobierno de <strong>Ernesto Zedillo</strong>, se devaluó el peso mexicano de <strong>3.4 a más de 7.6 pesos por dólar</strong> en semanas. La crisis, conocida como el <strong>"Efecto Tequila"</strong>, se extendió por toda Latinoamérica. Las tasas de interés superaron el <strong>100% anual</strong>, millones perdieron sus casas y ahorros. EE.UU. organizó un rescate de <strong>50 mil millones de dólares</strong> liderado por el presidente Bill Clinton. El PIB cayó un 6.2% en 1995. La crisis expuso las fragilidades del modelo económico de Salinas y cambió para siempre la política monetaria mexicana.</p>
+    </div>
+    <div id="tab-politica" class="info-panel glass-card" style="text-align:left;">
+      <div style="font-size:20px;font-weight:900;margin-bottom:10px;color:var(--orange);">🏛️ Política de los 90s</div>
+      <p style="font-size:13px;line-height:1.8;opacity:.9;">Los 90s fueron la década de la <strong>transición democrática</strong> en México. El <strong>PRI</strong>, que había gobernado durante más de 70 años, comenzó a perder poder. <strong>Carlos Salinas de Gortari</strong> (1988-1994) modernizó la economía pero su sexenio terminó en escándalo. <strong>Ernesto Zedillo</strong> (1994-2000) impulsó reformas electorales históricas que permitieron la creación del <strong>IFE autónomo</strong>. En <strong>1997</strong>, el PRI perdió la mayoría en la Cámara de Diputados por primera vez. <strong>Cuauhtémoc Cárdenas</strong> ganó la jefatura de gobierno de la CDMX. Todo culminó en el año <strong>2000</strong> con la victoria de <strong>Vicente Fox</strong> del PAN, acabando con 71 años de hegemonía priista.</p>
+    </div>
+  </div>
+
+  <div style="animation:floatUp .6s ease .6s both;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:20px;">
+    <button class="btn-play" onclick="startGame('crucigrama')">
+      <i class="fas fa-puzzle-piece"></i> CRUCIGRAMA
+    </button>
+    <button class="btn-secondary" onclick="startGame('sopa')">
+      <i class="fas fa-search"></i> SOPA DE LETRAS
+    </button>
+  </div>
+  <p style="color:var(--text2);font-size:12px;margin-bottom:40px;">9 palabras • Cultura mexicana de los 90s • Nivel: Noventero 🔥</p>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     GAME: CRUCIGRAMA
+     ═══════════════════════════════════════════ -->
+<div id="game-crucigrama">
+<div style="max-width:1280px;margin:0 auto;padding:20px 16px;">
+
+  <!-- Game Header -->
+  <div class="game-header">
+    <div>
+      <div class="game-title"><i class="fas fa-puzzle-piece"></i> CRUCIGRAMA 90s</div>
+      <p class="game-subtitle">México en los años noventa • Edición Noventera</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <div class="timer-display" id="cruci-timer"><i class="fas fa-clock"></i> 00:00</div>
+      <button class="game-btn" onclick="showHint()"><i class="fas fa-lightbulb"></i> PISTA <span id="hint-count" style="background:var(--pink);color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;margin-left:4px;">3</span></button>
+      <button class="game-btn success" onclick="checkAnswers()"><i class="fas fa-check"></i> VERIFICAR</button>
+      <button class="game-btn" onclick="resetPuzzle()"><i class="fas fa-redo"></i> REINICIAR</button>
+      <button class="game-btn" onclick="goHome()"><i class="fas fa-home"></i></button>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-track"><div id="progress-bar" class="progress-fill"></div></div>
+  <div id="hint-box" style="display:none;margin-bottom:12px;"></div>
+
+  <div class="game-layout" style="display:grid;grid-template-columns:1fr 380px;gap:20px;">
+    <!-- LEFT: Grid + Fact -->
+    <div>
+      <div class="grid-container">
+        <div id="grid" style="display:grid;gap:3px;"></div>
+      </div>
+      <!-- Fun Fact -->
+      <div class="fact-box">
+        <div class="fact-label"><i class="fas fa-star"></i> DATO CURIOSO</div>
+        <p id="fun-fact" class="fact-text"></p>
+      </div>
+    </div>
+
+    <!-- RIGHT: Clues + Score -->
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="clue-panel">
+        <h2 style="font-family:'Orbitron',sans-serif;font-size:18px;color:var(--pink);margin-bottom:14px;display:flex;align-items:center;gap:8px;"><i class="fas fa-list-ol"></i> PISTAS</h2>
+        <div style="margin-bottom:14px;">
+          <div class="clue-section-title">↔️ HORIZONTALES</div>
+          <div id="horizontal-clues" style="display:flex;flex-direction:column;gap:4px;"></div>
+        </div>
+        <div>
+          <div class="clue-section-title">↕️ VERTICALES</div>
+          <div id="vertical-clues" style="display:flex;flex-direction:column;gap:4px;"></div>
+        </div>
+      </div>
+
+      <!-- Score -->
+      <div class="score-card">
+        <div style="text-align:center;">
+          <div class="score-number" id="score">0/9</div>
+          <div style="font-size:10px;color:var(--text2);font-weight:700;margin-top:4px;">PALABRAS</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;color:var(--text);">México en los 90s</div>
+          <div class="score-tags">
+            <span class="score-tag">📰 Política</span>
+            <span class="score-tag">🎵 Música</span>
+            <span class="score-tag">📺 TV</span>
+            <span class="score-tag">💰 Economía</span>
+          </div>
+        </div>
+        <button class="game-btn" onclick="showSolution()" style="white-space:nowrap;"><i class="fas fa-eye"></i> Solución</button>
+      </div>
+
+      <!-- Trivia -->
+      <div class="trivia-box">
+        <div class="trivia-label">📚 CONTEXTO HISTÓRICO</div>
+        <p id="trivia-text" class="trivia-text"></p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     GAME: SOPA DE LETRAS
+     ═══════════════════════════════════════════ -->
+<div id="game-sopa">
+<div style="max-width:1280px;margin:0 auto;padding:20px 16px;">
+
+  <!-- Game Header -->
+  <div class="game-header">
+    <div>
+      <div class="game-title"><i class="fas fa-search"></i> SOPA DE LETRAS 90s</div>
+      <p class="game-subtitle">Encuentra las 10 palabras ocultas sobre México en los 90s</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <div class="timer-display" id="sopa-timer"><i class="fas fa-clock"></i> 00:00</div>
+      <button class="game-btn primary" onclick="resetSopa()"><i class="fas fa-redo"></i> NUEVA SOPA</button>
+      <button class="game-btn" onclick="goHome()"><i class="fas fa-home"></i></button>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-track"><div id="sopa-progress" class="progress-fill"></div></div>
+
+  <div class="game-layout" style="display:grid;grid-template-columns:1fr 320px;gap:20px;">
+    <!-- LEFT: Sopa Grid -->
+    <div>
+      <div class="sopa-container">
+        <div id="sopa-grid" style="display:grid;gap:2px;"></div>
+      </div>
+      <p style="color:var(--text2);font-size:12px;margin-top:12px;"><i class="fas fa-info-circle"></i> Haz clic y arrastra sobre la palabra para seleccionarla. Busca en horizontal, vertical y diagonal.</p>
+    </div>
+
+    <!-- RIGHT: Word List -->
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div class="clue-panel">
+        <h2 style="font-family:'Orbitron',sans-serif;font-size:16px;color:var(--cyan);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+          <i class="fas fa-list"></i> PALABRAS <span id="sopa-score" style="margin-left:auto;color:var(--pink);font-size:20px;">0/10</span>
+        </h2>
+        <div id="word-list" class="word-list"></div>
+      </div>
+
+      <div class="fact-box">
+        <div class="fact-label"><i class="fas fa-star"></i> ¿SABÍAS QUE...?</div>
+        <p id="sopa-fact" class="fact-text"></p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     INFO SECTION
+     ═══════════════════════════════════════════ -->
+<div id="info-section">
+  <div style="max-width:1100px;margin:0 auto;">
+    <h2 class="font-title" style="font-size:clamp(28px,5vw,48px);text-align:center;margin-bottom:8px;background:linear-gradient(90deg,var(--pink),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">📖 ENCICLOPEDIA 90s</h2>
+    <p style="color:var(--text2);text-align:center;margin-bottom:40px;font-size:15px;">Todo lo que necesitas saber sobre el México de los noventa</p>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-emoji">🌎</div>
+        <h3>NAFTA / TLC</h3>
+        <p>El Tratado de Libre Comercio de América del Norte entró en vigor el 1 de enero de 1994, integrando las economías de México, EE.UU. y Canadá. Impulsado por Salinas de Gortari, transformó radicalmente la economía mexicana. La industria maquiladora creció exponencialmente, pero el campo sufrió con la competencia del maíz subsidiado estadounidense.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-emoji">📰</div>
+        <h3>Caso Colosio</h3>
+        <p>Luis Donaldo Colosio, candidato presidencial del PRI, fue asesinado el 23 de marzo de 1994 en Tijuana. Su muerte sacudió al país. Era visto como un reformador que prometía democratizar al PRI. Su asesino, Mario Aburto, fue detenido pero el caso sigue siendo uno de los más controversiales de la historia mexicana.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-emoji">📺</div>
+        <h3>Telenovelas</h3>
+        <p>Los 90s fueron la era de Thalía: "María Mercedes" (1992), "Marimar" (1994) y "María la del Barrio" (1995) se convirtieron en fenómeno global. "La Usurpadora" (1998) con Gabriela Spanic y "Esmeralda" (1997) también marcaron época. Televisa exportó sus producciones a más de 100 países.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-emoji">🎵</div>
+        <h3>Música 90s</h3>
+        <p>Selena Quintanilla reinó como la "Reina del Tex-Mex" hasta su trágico asesinato en 1995. Maná conquistó el mundo con "¿Dónde Jugarán los Niños?" (1992). Café Tacvba revolucionó el rock alternativo. Luis Miguel reinventó el bolero. Molotov sacudió al país con su irreverente debut en 1997.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-emoji">💰</div>
+        <h3>Crisis del Peso</h3>
+        <p>El "Error de Diciembre" de 1994 devaluó el peso de 3.4 a más de 7.6 por dólar. El "Efecto Tequila" se extendió por Latinoamérica. Las tasas superaron el 100% anual. EE.UU. organizó un rescate de 50 mil millones. El PIB cayó 6.2% en 1995, millones perdieron casas y ahorros.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card-emoji">🏛️</div>
+        <h3>Transición Democrática</h3>
+        <p>El PRI comenzó a perder poder: en 1997 perdió la mayoría en la Cámara de Diputados. Zedillo impulsó la autonomía del IFE. Cárdenas ganó la CDMX. Todo culminó en el 2000 con la victoria de Vicente Fox, terminando 71 años de hegemonía priista. Una transformación histórica sin precedentes.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+<footer id="footer">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:32px;">
+      <h2 class="font-title" style="font-size:clamp(24px,5vw,42px);background:linear-gradient(90deg,var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👥 NUESTRO EQUIPO</h2>
+      <p style="color:var(--text2);font-size:14px;margin-top:6px;">Los creadores de este proyecto • Grupo 611</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:40px;">
+      <div class="team-card">
+        <div class="team-emoji">👩‍💻</div>
+        <div class="team-name">Alinne Cano</div>
+        <div class="team-sub">Ostria Hernández Bravo</div>
+        <div class="team-badge">Grupo 611</div>
+      </div>
+      <div class="team-card">
+        <div class="team-emoji">👩‍💻</div>
+        <div class="team-name">Joselyn Anali Guadalupe</div>
+        <div class="team-sub">Hernández Aranda García Merchán</div>
+        <div class="team-badge">Grupo 611</div>
+      </div>
+      <div class="team-card">
+        <div class="team-emoji">👨‍💻</div>
+        <div class="team-name">Jonathan Alexis</div>
+        <div class="team-sub">&nbsp;</div>
+        <div class="team-badge">Grupo 611</div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:20px;text-align:center;">
+      <p style="color:var(--text2);font-size:13px;margin:0;">🇲🇽 Juegos Interactivos México 90s • Grupo 611 • 2025</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
+<script>
+// ╔═══════════════════════════════════════════╗
+// ║          AUDIO SYSTEM (Web Audio API)     ║
+// ╚═══════════════════════════════════════════╝
+let audioCtx = null;
+let isMuted = false;
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playTone(freq, duration, type = 'square', vol = 0.08) {
+  if (isMuted) return;
+  try {
+    const ctx = getAudioCtx();
+    if (ctx.state === 'suspended') { ctx.resume(); }
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    gain.gain.setValueAtTime(vol, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + duration);
+  } catch(e) {}
+}
+
+function playType()    { playTone(880, 0.06, 'square', 0.04); }
+function playCorrect() { [523,659,784].forEach((f,i) => setTimeout(() => playTone(f, 0.15, 'square', 0.06), i*80)); }
+function playWrong()   { playTone(180, 0.25, 'sawtooth', 0.06); }
+function playFound()   { [660,880,1100].forEach((f,i) => setTimeout(() => playTone(f, 0.12, 'triangle', 0.07), i*60)); }
+function playWin() {
+  const notes = [523,659,784,1047,784,1047,1319];
+  notes.forEach((f,i) => setTimeout(() => playTone(f, 0.2, 'square', 0.07), i*120));
+}
+function toggleMute() {
+  isMuted = !isMuted;
+  document.getElementById('mute-btn').innerHTML = isMuted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+}
+
+// ╔═══════════════════════════════════════════╗
+// ║            NAVIGATION & TABS              ║
+// ╚═══════════════════════════════════════════╝
+function switchTab(id) {
+  document.querySelectorAll('.info-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.info-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function setActiveNav(id) {
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) el.classList.add('active');
+}
+
+function showInfoFromNav() {
+  if (document.getElementById('game-crucigrama').style.display !== 'none' ||
+      document.getElementById('game-sopa').style.display !== 'none') {
+    document.getElementById('info-section').scrollIntoView({behavior:'smooth'});
+  }
+}
+
+function goHome() {
+  window.location.hash = 'home';
+}
+
+function startGame(type) {
+  window.location.hash = type;
+}
+
+function handleRouting() {
+  const hash = window.location.hash || '#home';
+  if (hash === '#home') {
+    stopTimer('cruci');
+    stopTimer('sopa');
+    document.getElementById('game-crucigrama').style.display = 'none';
+    document.getElementById('game-sopa').style.display = 'none';
+    const s = document.getElementById('splash');
+    s.style.display = 'flex';
+    s.classList.remove('hide');
+    setActiveNav('nav-home');
+    window.scrollTo(0, 0);
+  } else {
+    document.getElementById('splash').classList.add('hide');
+    setTimeout(() => {
+      document.getElementById('splash').style.display = 'none';
+      if (hash === '#crucigrama') {
+        document.getElementById('game-crucigrama').style.display = 'block';
+        document.getElementById('game-sopa').style.display = 'none';
+        setActiveNav('nav-cruci');
+        if (!cruciInitialized) { createGrid(); renderClues(); rotateFacts(); cruciInitialized = true; }
+        startTimer('cruci');
+      } else if (hash === '#sopa') {
+        document.getElementById('game-sopa').style.display = 'block';
+        document.getElementById('game-crucigrama').style.display = 'none';
+        setActiveNav('nav-sopa');
+        initSopa();
+        startTimer('sopa');
+      }
+      window.scrollTo(0, 0);
+    }, 300); // Faster visual transition
+  }
+}
+
+window.addEventListener('hashchange', handleRouting);
+
+// ╔═══════════════════════════════════════════╗
+// ║              TIMER SYSTEM                 ║
+// ╚═══════════════════════════════════════════╝
+let timers = { cruci: { interval: null, seconds: 0 }, sopa: { interval: null, seconds: 0 } };
+
+function startTimer(key) {
+  stopTimer(key);
+  timers[key].seconds = 0;
+  updateTimerDisplay(key);
+  timers[key].interval = setInterval(() => { timers[key].seconds++; updateTimerDisplay(key); }, 1000);
+}
+function stopTimer(key) { if (timers[key].interval) { clearInterval(timers[key].interval); timers[key].interval = null; } }
+function updateTimerDisplay(key) {
+  const m = String(Math.floor(timers[key].seconds / 60)).padStart(2, '0');
+  const s = String(timers[key].seconds % 60).padStart(2, '0');
+  const el = document.getElementById(key + '-timer');
+  if (el) el.innerHTML = `<i class="fas fa-clock"></i> ${m}:${s}`;
+}
+
+// ╔═══════════════════════════════════════════╗
+// ║          CRUCIGRAMA DATA & LOGIC          ║
+// ╚═══════════════════════════════════════════╝
+const funFacts = [
+  "El TLC/NAFTA entró en vigor el 1 de enero de 1994. Ese mismo día, el EZLN se levantó en armas en Chiapas, creando una de las coincidencias más dramáticas de la historia mexicana.",
+  "Selena Quintanilla vendió más de 65 millones de discos. Su película biográfica (1997) con Jennifer Lopez recaudó 35 millones de dólares.",
+  "'Marimar' de Thalía fue vista por más de 2 mil millones de personas en el mundo. En Filipinas causó tal furor que el gobierno pidió cambiar su horario de transmisión.",
+  "La crisis del peso de 1994 llevó a que las tasas de interés en tarjetas de crédito superaran el 100% anual. Millones de mexicanos perdieron sus hogares.",
+  "Maná lanzó '¿Dónde Jugarán los Niños?' en 1992. Se convirtió en el álbum de rock en español más vendido de la historia con más de 10 millones de copias.",
+  "El PRI gobernó México 71 años consecutivos (1929-2000). La elección del 2000 que ganó Vicente Fox fue considerada la transición democrática más importante de Latinoamérica.",
+  "Luis Donaldo Colosio fue asesinado el 23 de marzo de 1994 en Tijuana. Su muerte cambió la historia política de México para siempre.",
+  "El 'Efecto Tequila' de 1994 no solo afectó a México: causó crisis en Argentina, Brasil y otras economías emergentes del mundo."
+];
+
+const triviaTexts = [
+  "Los 90s en México: crisis económica, asesinatos políticos, pero también el boom cultural más grande del fin del siglo XX.",
+  "Thalía protagonizó tres telenovelas consecutivas que batieron récords mundiales de audiencia: las tres 'Marías'.",
+  "El NAFTA convirtió a México en una potencia exportadora: las exportaciones crecieron de 52 mil millones en 1993 a 166 mil millones en 2000.",
+  "Café Tacvba lanzó 'Re' en 1994, considerado por la crítica como uno de los mejores álbumes de rock latinoamericano de todos los tiempos."
+];
+
+// CROSSWORD PUZZLE DATA
+// SELENA goes vertically down column 4 (rows 0-5), crossing all horizontal words
+const puzzle = {
+  rows: 10, cols: 12,
+  grid: [
+    [" "," "," "," ","S","A","L","I","N","A","S"," "],
+    [" "," "," ","Z","E","D","I","L","L","O"," "," "],
+    [" "," ","C","O","L","O","S","I","O"," "," "," "],
+    [" "," "," ","P","E","S","O"," "," "," "," "," "],
+    [" "," "," "," ","N","A","F","T","A"," "," "," "],
+    [" "," ","T","H","A","L","I","A"," "," "," "," "],
+    [" "," "," "," "," "," "," "," "," "," "," "," "],
+    [" "," "," "," "," "," ","P","R","I"," "," "," "],
+    [" "," "," "," "," "," "," "," "," "," "," "," "],
+    [" ","M","A","N","A"," "," "," "," "," "," "," "]
+  ],
+  clues: {
+    horizontal: [
+      { number:1, row:0, col:4, answer:"SALINAS", clue:"Presidente de México de 1988 a 1994. Impulsó el TLC y la privatización de empresas estatales." },
+      { number:2, row:1, col:3, answer:"ZEDILLO", clue:"Presidente de 1994 a 2000. Enfrentó la crisis del 'Error de Diciembre' y promovió la autonomía del IFE." },
+      { number:3, row:2, col:2, answer:"COLOSIO", clue:"Candidato presidencial del PRI asesinado en Tijuana el 23 de marzo de 1994 durante un mitin." },
+      { number:4, row:3, col:3, answer:"PESO", clue:"Moneda mexicana que sufrió una devaluación devastadora en diciembre de 1994, causando el 'Efecto Tequila'." },
+      { number:5, row:4, col:4, answer:"NAFTA", clue:"Tratado comercial entre México, EE.UU. y Canadá que entró en vigor el 1 de enero de 1994." },
+      { number:6, row:5, col:2, answer:"THALIA", clue:"Actriz y cantante protagonista de 'Marimar', 'María la del Barrio' y 'María Mercedes'. Reina de las telenovelas." },
+      { number:7, row:7, col:6, answer:"PRI", clue:"Partido político que gobernó México 71 años consecutivos hasta perder la presidencia en el 2000." },
+      { number:8, row:9, col:1, answer:"MANA", clue:"Banda de rock mexicano que lanzó '¿Dónde Jugarán los Niños?' (1992), el álbum de rock en español más vendido." }
+    ],
+    vertical: [
+      { number:1, row:0, col:4, answer:"SELENA", clue:"La 'Reina del Tex-Mex', cantante asesinada trágicamente en Corpus Christi en marzo de 1995. Su legado sigue vivo." }
+    ]
+  }
+};
+
+let cruciInitialized = false;
+let currentGrid = [], selectedCell = null, hintsLeft = 3;
+let factIndex = 0, triviaIndex = 0;
+let currentDir = 'horizontal'; // track direction for word highlighting
+
+function rotateFacts() {
+  const ff = document.getElementById('fun-fact');
+  const tt = document.getElementById('trivia-text');
+  if (ff) ff.textContent = funFacts[factIndex % funFacts.length];
+  if (tt) tt.textContent = triviaTexts[triviaIndex % triviaTexts.length];
+  factIndex++; triviaIndex++;
+  setTimeout(rotateFacts, 9000);
+}
+
+function createGrid() {
+  const gridEl = document.getElementById('grid');
+  gridEl.innerHTML = '';
+  gridEl.style.gridTemplateColumns = `repeat(${puzzle.cols}, 44px)`;
+  currentGrid = [];
+  const nums = {};
+  [...puzzle.clues.horizontal, ...puzzle.clues.vertical].forEach(c => {
+    const k = `${c.row},${c.col}`;
+    if (!nums[k]) nums[k] = c.number;
+  });
+  for (let r = 0; r < puzzle.rows; r++) {
+    currentGrid[r] = [];
+    for (let c = 0; c < puzzle.cols; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'grid-cell';
+      cell.dataset.row = r;
+      cell.dataset.col = c;
+      if (puzzle.grid[r][c] === " ") {
+        cell.classList.add('black');
+      } else {
+        if (nums[`${r},${c}`]) {
+          const n = document.createElement('span');
+          n.className = 'cell-num';
+          n.textContent = nums[`${r},${c}`];
+          cell.appendChild(n);
+        }
+        const inp = document.createElement('input');
+        inp.type = 'text';
+        inp.maxLength = 1;
+        inp.dataset.row = r;
+        inp.dataset.col = c;
+        inp.addEventListener('mousedown', () => {
+          if (document.activeElement === inp) {
+            currentDir = currentDir === 'horizontal' ? 'vertical' : 'horizontal';
+            highlightCell(r, c);
+          }
+        });
+        inp.addEventListener('focus', () => highlightCell(r, c));
+        inp.addEventListener('input', e => {
+          e.target.value = e.target.value.toUpperCase();
+          playType();
+          moveNext(r, c);
+        });
+        inp.addEventListener('keydown', handleKey);
+        cell.appendChild(inp);
+      }
+      gridEl.appendChild(cell);
+      currentGrid[r][c] = '';
+    }
+  }
+}
+
+function highlightCell(row, col) {
+  selectedCell = { row, col };
+  // Remove all highlights
+  document.querySelectorAll('.grid-cell').forEach(c => {
+    c.classList.remove('active-cell', 'highlight');
+  });
+  
+  // Find clue in active direction first, then fallback
+  let foundClue = null;
+  const dirsToTry = currentDir === 'horizontal' ? ['horizontal', 'vertical'] : ['vertical', 'horizontal'];
+  
+  for (const dir of dirsToTry) {
+    const list = puzzle.clues[dir];
+    for (const clue of list) {
+      const len = clue.answer.length;
+      for (let i = 0; i < len; i++) {
+        const r2 = dir === 'horizontal' ? clue.row : clue.row + i;
+        const c2 = dir === 'horizontal' ? clue.col + i : clue.col;
+        if (r2 === row && c2 === col) {
+          foundClue = { clue, dir };
+          break;
+        }
+      }
+      if (foundClue) break;
+    }
+    if (foundClue) break;
+  }
+
+  if (foundClue) {
+    const c = foundClue.clue;
+    const len = c.answer.length;
+    currentDir = foundClue.dir;
+    for (let i = 0; i < len; i++) {
+      const r2 = foundClue.dir === 'horizontal' ? c.row : c.row + i;
+      const c2 = foundClue.dir === 'horizontal' ? c.col + i : c.col;
+      const cellEl = document.querySelector(`.grid-cell[data-row="${r2}"][data-col="${c2}"]`);
+      if (cellEl) cellEl.classList.add('highlight');
+    }
+  }
+
+  const activeCell = document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"]`);
+  if (activeCell) activeCell.classList.add('active-cell');
+
+  // Highlight active clue in sidebar
+  document.querySelectorAll('.clue-item').forEach(ci => ci.classList.remove('active-clue'));
+  if (foundClue) {
+    const clueEl = document.querySelector(`.clue-item[data-number="${foundClue.clue.number}"][data-dir="${foundClue.dir}"]`);
+    if (clueEl) {
+      clueEl.classList.add('active-clue');
+      clueEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+}
+
+function moveNext(row, col) {
+  let nextInput;
+  if (currentDir === 'vertical') {
+    nextInput = document.querySelector(`input[data-row="${row + 1}"][data-col="${col}"]`);
+  } else {
+    nextInput = document.querySelector(`input[data-row="${row}"][data-col="${col + 1}"]`);
+  }
+  if (nextInput) nextInput.focus();
+}
+
+function handleKey(e) {
+  const r = +e.target.dataset.row, c = +e.target.dataset.col;
+  const moves = { ArrowRight: [0, 1], ArrowLeft: [0, -1], ArrowDown: [1, 0], ArrowUp: [-1, 0] };
+  if (moves[e.key]) {
+    const [dr, dc] = moves[e.key];
+    if (dc !== 0) currentDir = 'horizontal';
+    if (dr !== 0) currentDir = 'vertical';
+    const n = document.querySelector(`input[data-row="${r + dr}"][data-col="${c + dc}"]`);
+    if (n) { e.preventDefault(); n.focus(); }
+  }
+  if (e.key === 'Backspace' && e.target.value === '') {
+    let prev;
+    if (currentDir === 'vertical') {
+      prev = document.querySelector(`input[data-row="${r - 1}"][data-col="${c}"]`);
+    } else {
+      prev = document.querySelector(`input[data-row="${r}"][data-col="${c - 1}"]`);
+    }
+    if (prev) prev.focus();
+  }
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const allInputs = [...document.querySelectorAll('#grid input')];
+    const idx = allInputs.indexOf(e.target);
+    const next = e.shiftKey ? allInputs[idx - 1] : allInputs[idx + 1];
+    if (next) next.focus();
+  }
+}
+
+function renderClues() {
+  ['horizontal', 'vertical'].forEach(dir => {
+    const cont = document.getElementById(`${dir}-clues`);
+    cont.innerHTML = '';
+    puzzle.clues[dir].forEach(clue => {
+      const d = document.createElement('div');
+      d.className = 'clue-item';
+      d.dataset.number = clue.number;
+      d.dataset.dir = dir;
+      d.innerHTML = `<span class="clue-num">${clue.number}</span><span class="clue-text">${clue.clue}</span>`;
+      d.onclick = () => {
+        currentDir = dir;
+        const inp = document.querySelector(`input[data-row="${clue.row}"][data-col="${clue.col}"]`);
+        if (inp) inp.focus();
+      };
+      cont.appendChild(d);
+    });
+  });
+}
+
+function checkAnswers() {
+  let correct = 0, total = 0;
+  document.querySelectorAll('#grid input').forEach(i => i.parentElement.classList.remove('correct', 'wrong'));
+
+  [...puzzle.clues.horizontal, ...puzzle.clues.vertical].forEach(clue => {
+    const isH = puzzle.clues.horizontal.includes(clue);
+    let ok = true;
+    for (let i = 0; i < clue.answer.length; i++) {
+      const inp = isH
+        ? document.querySelector(`input[data-row="${clue.row}"][data-col="${clue.col + i}"]`)
+        : document.querySelector(`input[data-row="${clue.row + i}"][data-col="${clue.col}"]`);
+      if (!inp || inp.value !== clue.answer[i]) ok = false;
+    }
+    if (ok) correct++;
+    total++;
+  });
+
+  // Color cells
+  document.querySelectorAll('#grid input').forEach(inp => {
+    const r = +inp.dataset.row, c = +inp.dataset.col, s = puzzle.grid[r][c];
+    if (s !== " ") {
+      if (inp.value === s) { inp.parentElement.classList.add('correct'); }
+      else if (inp.value !== '') { inp.parentElement.classList.add('wrong'); }
+    }
+  });
+
+  document.getElementById('score').textContent = `${correct}/${total}`;
+  document.getElementById('progress-bar').style.width = Math.round(correct / total * 100) + '%';
+
+  if (correct === total) {
+    playWin();
+    stopTimer('cruci');
+    launchConfetti();
+    setTimeout(() => alert(`🎉 ¡EXCELENTE!\nCompletaste el crucigrama en ${formatTime(timers.cruci.seconds)}.\n¡Eres un experto noventero!`), 400);
+  } else if (correct > 0) {
+    playCorrect();
+  } else {
+    playWrong();
+  }
+}
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60), s = sec % 60;
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+
+function resetPuzzle() {
+  document.querySelectorAll('#grid input').forEach(i => {
+    i.value = '';
+    i.parentElement.classList.remove('correct', 'wrong', 'highlight');
+  });
+  document.getElementById('score').textContent = '0/9';
+  document.getElementById('progress-bar').style.width = '0%';
+  document.getElementById('hint-box').style.display = 'none';
+  hintsLeft = 3;
+  document.getElementById('hint-count').textContent = '3';
+  startTimer('cruci');
+}
+
+function showSolution() {
+  if (!confirm("¿Ver la solución completa? Tu tiempo se detendrá.")) return;
+  stopTimer('cruci');
+  document.querySelectorAll('#grid input').forEach(inp => {
+    const r = +inp.dataset.row, c = +inp.dataset.col, l = puzzle.grid[r][c];
+    if (l !== " ") { inp.value = l; inp.parentElement.classList.add('correct'); }
+  });
+  const total = puzzle.clues.horizontal.length + puzzle.clues.vertical.length;
+  document.getElementById('score').textContent = `${total}/${total}`;
+  document.getElementById('progress-bar').style.width = '100%';
+  playWin();
+}
+
+function showHint() {
+  if (hintsLeft <= 0) { alert("Ya no tienes pistas 😅"); playWrong(); return; }
+  const empty = [...document.querySelectorAll('#grid input')].filter(i => i.value === '');
+  if (!empty.length) return;
+  const t = empty[Math.floor(Math.random() * empty.length)];
+  const r = +t.dataset.row, c = +t.dataset.col;
+  t.value = puzzle.grid[r][c];
+  t.parentElement.classList.add('correct');
+  hintsLeft--;
+  document.getElementById('hint-count').textContent = hintsLeft;
+  playCorrect();
+  const box = document.getElementById('hint-box');
+  box.innerHTML = `<div class="hint-pop"><i class="fas fa-lightbulb"></i> Letra <strong>${puzzle.grid[r][c]}</strong> revelada — quedan <strong>${hintsLeft}</strong> pistas.</div>`;
+  box.style.display = 'block';
+  setTimeout(() => box.style.display = 'none', 4000);
+}
+
+// ╔═══════════════════════════════════════════╗
+// ║         SOPA DE LETRAS LOGIC              ║
+// ╚═══════════════════════════════════════════╝
+const sopaWords = [
+  { word: "SELENA",   emoji: "🎤", desc: "Reina del Tex-Mex" },
+  { word: "NAFTA",    emoji: "🌎", desc: "Tratado de Libre Comercio" },
+  { word: "THALIA",   emoji: "📺", desc: "Reina de telenovelas" },
+  { word: "ZEDILLO",  emoji: "🏛️", desc: "Presidente 1994-2000" },
+  { word: "SALINAS",  emoji: "🏛️", desc: "Presidente 1988-1994" },
+  { word: "COLOSIO",  emoji: "📰", desc: "Candidato asesinado" },
+  { word: "MARIMAR",  emoji: "📺", desc: "Telenovela icónica" },
+  { word: "MANA",     emoji: "🎵", desc: "Banda de rock" },
+  { word: "PESO",     emoji: "💰", desc: "Crisis monetaria" },
+  { word: "CHIAPAS",  emoji: "✊", desc: "Levantamiento zapatista" }
+];
+
+const sopaFacts = [
+  "Selena fue asesinada el 31 de marzo de 1995 por Yolanda Saldívar, presidenta de su fan club.",
+  "El TLC/NAFTA fue negociado entre Carlos Salinas, George H.W. Bush y Brian Mulroney.",
+  "Thalía vendió más de 40 millones de discos a nivel mundial.",
+  "Ernesto Zedillo fue candidato sustituto tras el asesinato de Colosio.",
+  "El EZLN, liderado por el Subcomandante Marcos, se levantó en Chiapas el 1 de enero de 1994.",
+  "Maná ha ganado 4 premios Grammy y 8 Grammy Latinos.",
+  "La devaluación del peso en 1994 provocó la peor recesión en México desde los años 30.",
+  "Marimar fue vista en más de 100 países y traducida a decenas de idiomas."
+];
+
+const SOPA_SIZE = 14;
+let sopaGrid = [];
+let sopaWordPositions = [];
+let sopaFoundWords = new Set();
+let isDragging = false;
+let startCell = null;
+let sopaFactIdx = 0;
+
+function initSopa() {
+  sopaFoundWords.clear();
+  isDragging = false;
+  startCell = null;
+  generateSopaGrid();
+  renderSopaGrid();
+  renderWordList();
+  updateSopaScore();
+  rotateSopaFacts();
+  startTimer('sopa');
+}
+
+function resetSopa() {
+  initSopa();
+}
+
+function generateSopaGrid() {
+  // Initialize empty grid
+  sopaGrid = Array.from({ length: SOPA_SIZE }, () => Array(SOPA_SIZE).fill(''));
+  sopaWordPositions = [];
+
+  // Directions: horizontal, vertical, diagonal-down-right, diagonal-down-left
+  const dirs = [
+    [0, 1],   // horizontal right
+    [1, 0],   // vertical down
+    [1, 1],   // diagonal down-right
+    [1, -1],  // diagonal down-left
+    [0, -1],  // horizontal left
+    [-1, 0],  // vertical up
+  ];
+
+  // Sort words by length (longest first for better placement)
+  const sortedWords = [...sopaWords].sort((a, b) => b.word.length - a.word.length);
+
+  for (const wordObj of sortedWords) {
+    const word = wordObj.word;
+    let placed = false;
+    let attempts = 0;
+
+    while (!placed && attempts < 200) {
+      attempts++;
+      const dir = dirs[Math.floor(Math.random() * dirs.length)];
+      const [dr, dc] = dir;
+      const maxR = dr === 0 ? SOPA_SIZE : (dr > 0 ? SOPA_SIZE - word.length : SOPA_SIZE);
+      const maxC = dc === 0 ? SOPA_SIZE : (dc > 0 ? SOPA_SIZE - word.length : SOPA_SIZE);
+      const minR = dr < 0 ? word.length - 1 : 0;
+      const minC = dc < 0 ? word.length - 1 : 0;
+
+      if (maxR <= minR || maxC <= minC) continue;
+
+      const startR = minR + Math.floor(Math.random() * (maxR - minR));
+      const startC = minC + Math.floor(Math.random() * (maxC - minC));
+
+      // Check if word fits
+      let fits = true;
+      const positions = [];
+      for (let i = 0; i < word.length; i++) {
+        const r = startR + dr * i;
+        const c = startC + dc * i;
+        if (r < 0 || r >= SOPA_SIZE || c < 0 || c >= SOPA_SIZE) { fits = false; break; }
+        if (sopaGrid[r][c] !== '' && sopaGrid[r][c] !== word[i]) { fits = false; break; }
+        positions.push([r, c]);
+      }
+
+      if (fits) {
+        for (let i = 0; i < word.length; i++) {
+          sopaGrid[positions[i][0]][positions[i][1]] = word[i];
+        }
+        sopaWordPositions.push({ word: word, positions: positions });
+        placed = true;
+      }
+    }
+  }
+
+  // Fill empty cells with random letters
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  for (let r = 0; r < SOPA_SIZE; r++) {
+    for (let c = 0; c < SOPA_SIZE; c++) {
+      if (sopaGrid[r][c] === '') {
+        sopaGrid[r][c] = letters[Math.floor(Math.random() * letters.length)];
+      }
+    }
+  }
+}
+
+function getLineCells(r1, c1, r2, c2) {
+  const dr = r2 - r1;
+  const dc = c2 - c1;
+  if (dr === 0 && dc === 0) return [{r: r1, c: c1}];
+  
+  const absDr = Math.abs(dr);
+  const absDc = Math.abs(dc);
+  if (dr !== 0 && dc !== 0 && absDr !== absDc) return []; // not a valid straight line
+  
+  const stepR = dr === 0 ? 0 : dr / absDr;
+  const stepC = dc === 0 ? 0 : dc / absDc;
+  const steps = Math.max(absDr, absDc);
+  
+  const cells = [];
+  for (let i = 0; i <= steps; i++) {
+    cells.push({ r: r1 + stepR * i, c: c1 + stepC * i });
+  }
+  return cells;
+}
+
+function highlightDragSelection(r1, c1, r2, c2) {
+  document.querySelectorAll('.sopa-cell.selecting').forEach(el => el.classList.remove('selecting'));
+  if (r2 === undefined) {
+    const cell = document.querySelector(`.sopa-cell[data-row="${r1}"][data-col="${c1}"]`);
+    if (cell) cell.classList.add('selecting');
+    return;
+  }
+  const line = getLineCells(r1, c1, r2, c2);
+  line.forEach(({r, c}) => {
+    const cell = document.querySelector(`.sopa-cell[data-row="${r}"][data-col="${c}"]`);
+    if (cell) cell.classList.add('selecting');
+  });
+}
+
+function finishSopaSelection() {
+  if (!startCell) return;
+  const selectingCells = [...document.querySelectorAll('.sopa-cell.selecting')];
+  if (selectingCells.length === 0) {
+    startCell = null;
+    return;
+  }
+  
+  const coords = selectingCells.map(cell => [parseInt(cell.dataset.row), parseInt(cell.dataset.col)]);
+  let foundWord = null;
+  for (const wp of sopaWordPositions) {
+    if (sopaFoundWords.has(wp.word)) continue;
+    
+    const pos = wp.positions;
+    if (pos.length !== coords.length) continue;
+    
+    let matchForward = true;
+    for (let i = 0; i < pos.length; i++) {
+      if (pos[i][0] !== coords[i][0] || pos[i][1] !== coords[i][1]) {
+        matchForward = false;
+        break;
+      }
+    }
+    
+    let matchBackward = true;
+    for (let i = 0; i < pos.length; i++) {
+      const revIdx = pos.length - 1 - i;
+      if (pos[revIdx][0] !== coords[i][0] || pos[revIdx][1] !== coords[i][1]) {
+        matchBackward = false;
+        break;
+      }
+    }
+    
+    if (matchForward || matchBackward) {
+      foundWord = wp;
+      break;
+    }
+  }
+  
+  document.querySelectorAll('.sopa-cell.selecting').forEach(cell => cell.classList.remove('selecting'));
+  
+  if (foundWord) {
+    sopaFoundWords.add(foundWord.word);
+    const colorIdx = sopaWords.findIndex(w => w.word === foundWord.word) % 10;
+    foundWord.positions.forEach(([r, c]) => {
+      const cell = document.querySelector(`.sopa-cell[data-row="${r}"][data-col="${c}"]`);
+      if (cell) { cell.classList.add('found', `found-${colorIdx}`); }
+    });
+    const wordEl = document.querySelector(`.word-item[data-word="${foundWord.word}"]`);
+    if (wordEl) wordEl.classList.add('found-word');
+    playFound();
+    updateSopaScore();
+    
+    if (sopaFoundWords.size === sopaWords.length) {
+      playWin();
+      stopTimer('sopa');
+      launchConfetti();
+      setTimeout(() => alert(`🎉 ¡INCREÍBLE!\nEncontraste todas las palabras en ${formatTime(timers.sopa.seconds)}.\n¡Eres un maestro noventero!`), 400);
+    }
+  } else {
+    if (selectingCells.length > 1) {
+      playWrong();
+    }
+  }
+  
+  startCell = null;
+}
+
+function renderSopaGrid() {
+  const gridEl = document.getElementById('sopa-grid');
+  gridEl.innerHTML = '';
+  gridEl.style.gridTemplateColumns = `repeat(${SOPA_SIZE}, 40px)`;
+
+  for (let r = 0; r < SOPA_SIZE; r++) {
+    for (let c = 0; c < SOPA_SIZE; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'sopa-cell';
+      cell.textContent = sopaGrid[r][c];
+      cell.dataset.row = r;
+      cell.dataset.col = c;
+      
+      // Mouse down starts dragging
+      cell.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        isDragging = true;
+        startCell = { r, c };
+        highlightDragSelection(r, c);
+        playType();
+      });
+      // Mouse enter updates selection
+      cell.addEventListener('mouseenter', () => {
+        if (isDragging && startCell) {
+          highlightDragSelection(startCell.r, startCell.c, r, c);
+        }
+      });
+      
+      // Touch events for mobile support
+      cell.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        isDragging = true;
+        startCell = { r, c };
+        highlightDragSelection(r, c);
+        playType();
+      });
+      cell.addEventListener('touchmove', (e) => {
+        if (!isDragging || !startCell) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        const el = document.elementFromPoint(touch.clientX, touch.clientY);
+        if (el && el.classList.contains('sopa-cell')) {
+          const tr = parseInt(el.dataset.row);
+          const tc = parseInt(el.dataset.col);
+          highlightDragSelection(startCell.r, startCell.c, tr, tc);
+        }
+      });
+      cell.addEventListener('touchend', (e) => {
+        if (isDragging) {
+          isDragging = false;
+          finishSopaSelection();
+        }
+      });
+      
+      gridEl.appendChild(cell);
+    }
+  }
+}
+
+// Global window mouseup listener to end dragging anywhere
+window.addEventListener('mouseup', () => {
+  if (isDragging) {
+    isDragging = false;
+    finishSopaSelection();
+  }
+});
+
+function renderWordList() {
+  const listEl = document.getElementById('word-list');
+  listEl.innerHTML = '';
+  sopaWords.forEach(w => {
+    const item = document.createElement('div');
+    item.className = 'word-item';
+    item.dataset.word = w.word;
+    item.innerHTML = `
+      <span class="word-icon">${w.emoji}</span>
+      <div>
+        <div style="font-weight:800;">${w.word}</div>
+        <div style="font-size:11px;color:var(--text2);font-weight:400;">${w.desc}</div>
+      </div>
+      <span class="word-check"><i class="fas fa-check-circle"></i></span>
+    `;
+    listEl.appendChild(item);
+  });
+}
+
+function updateSopaScore() {
+  document.getElementById('sopa-score').textContent = `${sopaFoundWords.size}/${sopaWords.length}`;
+  document.getElementById('sopa-progress').style.width = Math.round(sopaFoundWords.size / sopaWords.length * 100) + '%';
+}
+
+function rotateSopaFacts() {
+  const el = document.getElementById('sopa-fact');
+  if (el) el.textContent = sopaFacts[sopaFactIdx % sopaFacts.length];
+  sopaFactIdx++;
+  setTimeout(rotateSopaFacts, 10000);
+}
+
+// ╔═══════════════════════════════════════════╗
+// ║              CONFETTI                     ║
+// ╚═══════════════════════════════════════════╝
+function launchConfetti() {
+  const cols = ['#ff0055', '#00ccff', '#00ff88', '#b537f2', '#ffcc00', '#ff6b2b'];
+  for (let i = 0; i < 120; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    const size = 6 + Math.random() * 10;
+    el.style.cssText = `
+      left:${Math.random() * 100}vw;top:-14px;
+      width:${size}px;height:${size}px;
+      background:${cols[Math.floor(Math.random() * cols.length)]};
+      border-radius:${Math.random() > .5 ? '50%' : '3px'};
+      animation:fall ${1.5 + Math.random() * 2.5}s linear ${Math.random()}s forwards;
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 4500);
+  }
+}
+
+// ╔═══════════════════════════════════════════╗
+// ║              INIT                         ║
+// ╚═══════════════════════════════════════════╝
+window.onload = () => {
+  handleRouting();
+};
+</script>
+</body>
+</html>
